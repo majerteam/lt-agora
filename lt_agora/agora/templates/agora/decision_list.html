@@ -14,7 +14,7 @@
     <tbody>
         {% for decision in object_list %}
         <tr>
-            <td><a href="{{ decision.get_absolute_url }}">LT-{{ decision.pk }}</a></td>
+            <td><a href="{{ decision.get_absolute_url }}">{{ decision.pk }}</a></td>
             <td><a href="{{ decision.get_absolute_url }}">{{ decision.title }}</a></td>
             <td>{{ decision.created_at }}</td>
             <td><a href="{% url author_detail user.pk %}">{{ decision.user }}</a></td>
