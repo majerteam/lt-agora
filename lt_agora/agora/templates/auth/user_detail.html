@@ -22,7 +22,7 @@
     <tbody>
         {% for decision in object.decisions.all %}
         <tr>
-            <td><a href="{{ decision.get_absolute_url }}">LT-{{ decision.pk }}</a></td>
+            <td><a href="{{ decision.get_absolute_url }}">{{ decision.pk }}</a></td>
             <td><a href="{{ decision.get_absolute_url }}">{{ decision.title }}</a></td>
             <td>{{ decision.created_at }}</td>
             <td>{% include "agora/inc_decision_action_bar.html" with obj=decision user=user short=1 only %}</td>

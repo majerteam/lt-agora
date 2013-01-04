@@ -38,7 +38,7 @@ class Decision(models.Model):
         return ('decision_detail', [str(self.pk)])
 
     def __unicode__(self):
-        return "LT-%s : %s" % (self.pk, self.title)
+        return "%s : %s" % (self.pk, self.title)
 
     class Meta:
         ordering = ['-closed_at', 'created_at']
@@ -66,7 +66,7 @@ def notify_contact(sender, instance, created, **kwargs):
     from django.core.mail import EmailMessage
     from django.template.loader import render_to_string
     if not settings.DEBUG:
-        subject = 'A new proposal has been submitted, LT-%s' % instance.pk
+        subject = 'A new proposal has been submitted, %s' % instance.pk
         from_email = settings.AGORA_BOT_EMAIL
         to = settings.AGORA_CONTACT
         ctxt = {'obj': instance }
@@ -93,7 +93,7 @@ def consensus_handler(sender, instance, created, **kwargs):
         decision.closed_at = datetime.now()
         decision.save()
 
-        subject = 'Proposal LT-%s has been accepted' % decision.pk
+        subject = 'Proposal %s has been accepted' % decision.pk
         from_email = settings.AGORA_BOT_EMAIL
         to = settings.AGORA_CONTACT
         ctxt = {'obj': decision }
@@ -113,7 +113,7 @@ def notify_comment(sender, instance, created, **kwargs):
 
     if isinstance(instance.content_object, Decision):
         decision = instance.content_object
-        subject = 'New comment on LT-%s has been accepted' % decision.pk
+        subject = 'New comment on %s has been accepted' % decision.pk
         from_email = settings.AGORA_BOT_EMAIL
         to = settings.AGORA_CONTACT
         ctxt = {'obj': instance }
@@ -130,7 +130,7 @@ def notify_last_missing(sender, instance, created, **kwargs):
     last_users = User.objects.exclude(pk__in=[vote["user"] for vote in instance.decision.votes.values("user")])
     if last_users.count() == 1:
         retardataire = last_users[0]
-        subject = "Votre avis est requis pour LT-%s" % (instance.decision.pk)
+        subject = "Votre avis est requis pour %s" % (instance.decision.pk)
         text = u"Tout le monde a voté sauf vous. Veuillez vous rendre à l'adresse http://agora.lateral-thoughts.com%s" % (instance.decision.get_absolute_url())
         retardataire.email_user(subject, text)
 
